@@ -1,70 +1,188 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+const App = () => {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>내 랠리</Text>
+        <View style={styles.rallyScoreContainer}>
+          <Text style={styles.rallyScoreText}>랠리 점수</Text>
+          <Text style={styles.rallyScoreDescription}>봉사 활동에 참여 하면 점수를 높일 수 있어요.</Text>
+          <View style={styles.pointsContainer}>
+            <View style={styles.pointsItem}>
+              <Text style={styles.points}>내 포인트</Text>
+              <Text style={styles.pointsValue}>50,000 P</Text>
+            </View>
+            <View style={styles.pointsItem}>
+              <Text style={styles.rank}>커뮤니티</Text>
+              <Text style={styles.rankValue}>1등</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      {/* TODO: array map으로 변경 할 것 */}
+      <View style={styles.activitySection}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>봉사활동</Text>
+          <Text style={styles.more}>더보기 {">"}</Text>
+        </View>
+        <View style={styles.iconsContainer}>
+          <View style={styles.iconItem}>
+            <Image style={styles.icon} source={require('@/assets/disaster.png')} />
+            <Text style={styles.iconText}>재난</Text>
+          </View>
+          <View style={styles.iconItem}>
+            <Image style={styles.icon} source={require('@/assets/child.png')} />
+            <Text style={styles.iconText}>장애아동</Text>
+          </View>
+          <View style={styles.iconItem}>
+            <Image style={styles.icon} source={require('@/assets/elderly.png')} />
+            <Text style={styles.iconText}>어르신</Text>
+          </View>
+          <View style={styles.iconItem}>
+            <Image style={styles.icon} source={require('@/assets/physical.png')} />
+            <Text style={styles.iconText}>신체활동</Text>
+          </View>
+          <View style={styles.iconItem}>
+            <Image style={styles.icon} source={require('@/assets/tutoring.png')} />
+            <Text style={styles.iconText}>튜터링</Text>
+          </View>
+        </View>
+        {/* TODO: array map으로 변경 할 것 */}
+        <View style={styles.volunteerList}>
+          <View style={styles.volunteerItem}>
+            <Text style={styles.volunteerTitle}>아름다운 가게 인천점</Text>
+            <Text style={styles.volunteerSubTitle}>매장운영 지원 봉사 활동 모집</Text>
+            <Text style={styles.volunteerDetails}>[모집] 4월 2일 ~ 7월 2일</Text>
+            <Text style={styles.volunteerDetails}>[기간] 4월 2일 ~ 7월 2일 매일 10:00~14:00</Text>
+          </View>
+          <View style={styles.volunteerItem}>
+            <Text style={styles.volunteerTitle}>아름다운 가게 인천점</Text>
+            <Text style={styles.volunteerSubTitle}>매장운영 지원 봉사 활동 모집</Text>
+            <Text style={styles.volunteerDetails}>[모집] 4월 2일 ~ 7월 2일</Text>
+            <Text style={styles.volunteerDetails}>[기간] 4월 2일 ~ 7월 2일 매일 10:00~14:00</Text>
+          </View>
+          <View style={styles.volunteerItem}>
+            <Text style={styles.volunteerTitle}>아름다운 가게 인천점</Text>
+            <Text style={styles.volunteerSubTitle}>매장운영 지원 봉사 활동 모집</Text>
+            <Text style={styles.volunteerDetails}>[모집] 4월 2일 ~ 7월 2일</Text>
+            <Text style={styles.volunteerDetails}>[기간] 4월 2일 ~ 7월 2일 매일 10:00~14:00</Text>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  header: {
+    padding: 20,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  rallyScoreContainer: {
+    backgroundColor: '#f0f0f0',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  rallyScoreText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  rallyScoreDescription: {
+    fontSize: 14,
+    color: '#888',
+    marginVertical: 5,
+  },
+  pointsContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  pointsItem: {
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  points: {
+    fontSize: 16,
+    color: '#555',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  pointsValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#f60',
+  },
+  rank: {
+    fontSize: 16,
+    color: '#555',
+  },
+  rankValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#f60',
+  },
+  activitySection: {
+    padding: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  more: {
+    fontSize: 14,
+    color: '#888',
+  },
+  iconsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 10,
+  },
+  iconItem: {
+    alignItems: 'center',
+  },
+  icon: {
+    width: 40,
+    height: 40,
+  },
+  iconText: {
+    marginTop: 5,
+    fontSize: 14,
+  },
+  volunteerList: {
+    marginTop: 10,
+  },
+  volunteerItem: {
+    backgroundColor: '#f9f9f9',
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 5,
+  },
+  volunteerTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  volunteerSubTitle: {
+    fontSize: 14,
+    marginVertical: 5,
+  },
+  volunteerDetails: {
+    fontSize: 12,
+    color: '#888',
   },
 });
+
+export default App;
