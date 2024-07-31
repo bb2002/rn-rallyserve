@@ -1,8 +1,20 @@
 import { Link, router } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const OnBoardingScreen = () => {
+  useEffect(() => {
+    async function fetch() {
+      const authorization = await AsyncStorage.getItem("Authorization");
+      if (authorization != null) {
+        router.replace("/Home");
+      }
+    }
+
+    fetch().then();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Image source={require("@/assets/flag.png")} style={styles.icon} />
@@ -13,7 +25,7 @@ const OnBoardingScreen = () => {
       </Text>
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => router.replace("/Register")}
+        onPress={() => router.replace("/SignUp")}
       >
         <Text style={styles.startButtonText}>시작하기</Text>
       </TouchableOpacity>
