@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
@@ -17,7 +16,7 @@ const categories = [
   { name: "보건·의료", icon: "closecircleo" },
 ];
 
-const HomeScreen = () => {
+const HomeRenewalScreen = () => {
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
@@ -234,4 +233,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default HomeRenewalScreen;
