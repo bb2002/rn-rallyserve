@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
@@ -21,20 +22,15 @@ const HomeRenewalScreen = () => {
     <ScrollView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <AntDesign name="closecircleo" size={24} color="#000" />
+        <Image source={require("@/assets/flag.png")} style={styles.icon} />
         <View style={styles.headerIcons}>
           <AntDesign
-            name="closecircleo"
+            name="search1"
             size={24}
             color="#000"
             style={styles.icon}
           />
-          <AntDesign
-            name="closecircleo"
-            size={24}
-            color="#000"
-            style={styles.icon}
-          />
+          <AntDesign name="logout" size={24} color="#000" style={styles.icon} />
         </View>
       </View>
 
@@ -42,16 +38,33 @@ const HomeRenewalScreen = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>내 랠리</Text>
         <View style={styles.myRally}>
+          <Text style={styles.rallyTextHeader}>랠리 점수</Text>
           <Text style={styles.rallyText}>
             랠리 활동에 참여하면 점수를 높일 수 있어요.
           </Text>
           <View style={styles.rallyInfo}>
             <Text style={styles.rallyInfoText}>내 포인트</Text>
-            <Text style={styles.rallyInfoValue}>16,384 P</Text>
             <Text style={styles.rallyInfoText}>커뮤니티</Text>
-            <Text style={styles.rallyInfoValue}>1등</Text>
             <Text style={styles.rallyInfoText}>스타</Text>
-            <Text style={styles.rallyInfoValue}>1024 개</Text>
+          </View>
+          <View style={styles.rallyInfo}>
+            <Text style={{ ...styles.rallyInfoValue, color: "#f39c12" }}>
+              16,384{" "}
+              <Image
+                source={require("@/assets/icons/point.png")}
+                style={styles.pointIcon}
+              />
+            </Text>
+            <Text style={{ ...styles.rallyInfoValue, color: "#F1C40F" }}>
+              1등
+            </Text>
+            <Text style={{ ...styles.rallyInfoValue, color: "#f66e5c" }}>
+              1,024{" "}
+              <Image
+                source={require("@/assets/icons/star.png")}
+                style={styles.pointIcon}
+              />
+            </Text>
           </View>
         </View>
       </View>
@@ -120,7 +133,7 @@ const HomeRenewalScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f4f4",
+    backgroundColor: "#f6f5f7",
   },
   header: {
     flexDirection: "row",
@@ -133,25 +146,30 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginLeft: 16,
+    width: 24,
+    height: 24,
   },
   section: {
-    marginTop: 16,
-    backgroundColor: "#fff",
-    padding: 16,
+    margin: 24,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     marginBottom: 8,
   },
   myRally: {
     borderRadius: 8,
-    backgroundColor: "#e0e0e0",
+    backgroundColor: "#fff",
     padding: 16,
+  },
+  rallyTextHeader: {
+    fontWeight: "bold",
+    fontSize: 16,
   },
   rallyText: {
     fontSize: 14,
     marginBottom: 16,
+    color: "#a9a9aa",
   },
   rallyInfo: {
     flexDirection: "row",
@@ -159,10 +177,10 @@ const styles = StyleSheet.create({
   },
   rallyInfoText: {
     fontSize: 12,
-    color: "#666",
+    color: "#B8B8B8",
   },
   rallyInfoValue: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "bold",
   },
   categories: {
@@ -230,6 +248,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     padding: 16,
     backgroundColor: "#fff",
+  },
+  pointIcon: {
+    width: 24,
+    height: 24,
   },
 });
 

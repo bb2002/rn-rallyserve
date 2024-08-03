@@ -8,7 +8,7 @@ const OnBoardingScreen = () => {
     async function fetch() {
       const authorization = await AsyncStorage.getItem("Authorization");
       if (authorization != null) {
-        router.replace("/Home");
+        router.replace("/HomeRenewal");
       }
     }
 
