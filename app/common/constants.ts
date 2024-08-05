@@ -1,1 +1,1 @@
-export const RALLY_API = "http://14.54.95.140:1365/api";
+export const RALLY_API = "https://castberry.kr:1365/api";
