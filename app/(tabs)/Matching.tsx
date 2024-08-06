@@ -3,7 +3,7 @@ import { TextInput, StyleSheet, Text, View, ScrollView, TouchableOpacity, Platfo
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
 const App = () => {
-  const [mode, setMode] = useState('date');
+  const [mode, setMode] = useState<"date" | "time" | "datetime">('date');
   const [startDateVisible, setStartDateVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
 
@@ -37,19 +37,19 @@ const App = () => {
     setEndTimeVisible(true);
   }
 
-  const onStartConfirm = (selectedDate) => {
+  const onStartConfirm = (selectedDate: Date) => {
     setStartDateVisible(false);
     setStartDate(selectedDate);
   }
-  const onEndConfirm = (selectedDate) => {
+  const onEndConfirm = (selectedDate: Date) => {
     setEndDateVisible(false);
     setEndDate(selectedDate);
   }
-  const onStartTimeConfirm = (selectedDate) => {
+  const onStartTimeConfirm = (selectedDate: Date) => {
     setStartTimeVisible(false);
     setStartTime(selectedDate);
   }
-  const onEndTimeConfirm = (selectedDate) => {
+  const onEndTimeConfirm = (selectedDate: Date) => {
     setEndTimeVisible(false);
     setEndTime(selectedDate);
   }
@@ -67,7 +67,7 @@ const App = () => {
   const onEndTimeCancel = () => {
     setEndTimeVisible(false);
   }
-  const formatTime = (date) => {
+  const formatTime = (date: Date) => {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
