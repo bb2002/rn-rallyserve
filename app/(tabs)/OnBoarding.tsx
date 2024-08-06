@@ -7,6 +7,7 @@ const OnBoardingScreen = () => {
   useEffect(() => {
     async function fetch() {
       const authorization = await AsyncStorage.getItem("Authorization");
+      console.log("OnBoarding auth: ", authorization);
       if (authorization != null) {
         router.replace("/Home");
       }
