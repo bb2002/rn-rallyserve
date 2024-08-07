@@ -16,7 +16,7 @@ const menu = [
     text: "매치메이킹",
     selected: require("@/assets/icons/handshake_orange.png"),
     unselected: require("@/assets/icons/handshake_black.png"),
-    router: "/MatchMaking",
+    router: "/Matching",
   },
   {
     text: "활동찾기",
