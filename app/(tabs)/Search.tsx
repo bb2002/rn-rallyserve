@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface RecentSearchItem {
   id: string;
   term: string;
 }
 
-const App: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
+const SearchScreen: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [recentSearches, setRecentSearches] = useState<RecentSearchItem[]>([]);
 
   useEffect(() => {
@@ -17,7 +24,7 @@ const App: React.FC = () => {
 
   const loadRecentSearches = async () => {
     try {
-      const searches = await AsyncStorage.getItem('recentSearches');
+      const searches = await AsyncStorage.getItem("recentSearches");
       if (searches !== null) {
         setRecentSearches(JSON.parse(searches));
       }
@@ -28,27 +35,39 @@ const App: React.FC = () => {
 
   const saveSearchTerm = async (term: string) => {
     try {
-      const newSearchItem: RecentSearchItem = { id: Date.now().toString(), term };
-      const updatedSearches = [newSearchItem, ...recentSearches.filter(item => item.term !== term)];
+      const newSearchItem: RecentSearchItem = {
+        id: Date.now().toString(),
+        term,
+      };
+      const updatedSearches = [
+        newSearchItem,
+        ...recentSearches.filter((item) => item.term !== term),
+      ];
       setRecentSearches(updatedSearches);
-      await AsyncStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+      await AsyncStorage.setItem(
+        "recentSearches",
+        JSON.stringify(updatedSearches)
+      );
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleSearch = () => {
-    if (searchTerm.trim() !== '') {
+    if (searchTerm.trim() !== "") {
       saveSearchTerm(searchTerm.trim());
-      setSearchTerm('');
+      setSearchTerm("");
     }
   };
 
   const removeSearchTerm = async (id: string) => {
     try {
-      const updatedSearches = recentSearches.filter(item => item.id !== id);
+      const updatedSearches = recentSearches.filter((item) => item.id !== id);
       setRecentSearches(updatedSearches);
-      await AsyncStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+      await AsyncStorage.setItem(
+        "recentSearches",
+        JSON.stringify(updatedSearches)
+      );
     } catch (error) {
       console.error(error);
     }
@@ -57,10 +76,6 @@ const App: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.searchSection}>
-        {/* 대충 뒤로가기 했을때 화면 나오도록... */ }
-        <TouchableOpacity onPress={() => alert('뒤로 가기')}>
-          <Text style={styles.backIcon}>{"<"}</Text>
-        </TouchableOpacity>
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
@@ -70,13 +85,13 @@ const App: React.FC = () => {
             onSubmitEditing={handleSearch}
           />
           <TouchableOpacity onPress={handleSearch}>
-            <Text style={styles.searchIcon}>🔍</Text>
+            <AntDesign name="search1" size={20} color="black" />
           </TouchableOpacity>
         </View>
       </View>
       <Text style={styles.recentSearchesTitle}>최근 검색어</Text>
       <View style={styles.recentSearchesContainer}>
-        {recentSearches.map(item => (
+        {recentSearches.map((item) => (
           <View key={item.id} style={styles.searchItem}>
             <Text style={styles.searchItemText}>{item.term}</Text>
             <TouchableOpacity onPress={() => removeSearchTerm(item.id)}>
@@ -92,25 +107,25 @@ const App: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 20,
   },
   searchSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 20,
   },
   backIcon: {
     fontSize: 24,
-    color: '#888',
+    color: "#888",
     marginRight: 10,
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderRadius: 25,
     paddingHorizontal: 10,
   },
@@ -121,21 +136,21 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     fontSize: 20,
-    color: '#888',
+    color: "#888",
   },
   recentSearchesTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   recentSearchesContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   searchItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 20,
@@ -147,8 +162,8 @@ const styles = StyleSheet.create({
   },
   removeIcon: {
     fontSize: 16,
-    color: '#888',
+    color: "#888",
   },
 });
 
-export default App;
+export default SearchScreen;

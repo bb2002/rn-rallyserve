@@ -9,11 +9,21 @@ export default function Header() {
     router.replace("/OnBoarding");
   };
 
+  const onSearch = () => {
+    router.push("/Search");
+  };
+
   return (
     <View style={styles.header}>
       <Image source={require("@/assets/flag.png")} style={styles.icon} />
       <View style={styles.headerIcons}>
-        <AntDesign name="search1" size={24} color="#000" style={styles.icon} />
+        <AntDesign
+          name="search1"
+          size={24}
+          color="#000"
+          style={styles.icon}
+          onPress={onSearch}
+        />
         <AntDesign
           name="logout"
           size={24}

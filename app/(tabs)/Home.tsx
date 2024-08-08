@@ -13,6 +13,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FullSafeAreaView from "../components/FullSafeAreaView";
 import getAxios from "../common/getAxios";
+import { router } from "expo-router";
 
 const categories = [
   { name: "재해·재난", icon: require("@/assets/icons/siren.png") },
@@ -42,6 +43,10 @@ const HomeScreen = () => {
     star: -1,
   });
 
+  const gotoRanking = () => {
+    router.push("/users/Ranking");
+  };
+
   return (
     <FullSafeAreaView>
       <Header />
@@ -55,7 +60,9 @@ const HomeScreen = () => {
             </Text>
             <View style={styles.rallyInfo}>
               <Text style={styles.rallyInfoText}>내 포인트</Text>
-              <Text style={styles.rallyInfoText}>커뮤니티</Text>
+              <TouchableOpacity onPress={gotoRanking}>
+                <Text style={styles.rallyInfoText}>커뮤니티</Text>
+              </TouchableOpacity>
               <Text style={styles.rallyInfoText}>스타</Text>
             </View>
             <View style={styles.rallyInfo}>
@@ -66,9 +73,12 @@ const HomeScreen = () => {
                 />{" "}
                 16,384
               </Text>
-              <Text style={{ ...styles.rallyInfoValue, color: "#F1C40F" }}>
-                1등
-              </Text>
+              <TouchableOpacity onPress={gotoRanking}>
+                <Text style={{ ...styles.rallyInfoValue, color: "#F1C40F" }}>
+                  1등
+                </Text>
+              </TouchableOpacity>
+
               <Text style={{ ...styles.rallyInfoValue, color: "#f66e5c" }}>
                 <Image
                   source={require("@/assets/icons/star.png")}
