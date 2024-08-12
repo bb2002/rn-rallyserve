@@ -14,14 +14,23 @@ import Footer from "../components/Footer";
 import FullSafeAreaView from "../components/FullSafeAreaView";
 import getAxios from "../common/getAxios";
 import { router } from "expo-router";
+import {
+  Category,
+  CULTURE,
+  DISASTER,
+  ENVIRONMENT,
+  HEALTH,
+  LIFE,
+  MENTORING,
+} from "../common/category";
 
 const categories = [
-  { name: "재해·재난", icon: require("@/assets/icons/siren.png") },
-  { name: "생활지원", icon: require("@/assets/icons/treasure.png") },
-  { name: "환경보호", icon: require("@/assets/icons/leaf.png") },
-  { name: "문화행사", icon: require("@/assets/icons/calendar.png") },
-  { name: "보건·의료", icon: require("@/assets/icons/medical.png") },
-  { name: "교육", icon: require("@/assets/icons/book.png") },
+  { category: DISASTER, icon: require("@/assets/icons/siren.png") },
+  { category: LIFE, icon: require("@/assets/icons/treasure.png") },
+  { category: ENVIRONMENT, icon: require("@/assets/icons/leaf.png") },
+  { category: CULTURE, icon: require("@/assets/icons/calendar.png") },
+  { category: HEALTH, icon: require("@/assets/icons/medical.png") },
+  { category: MENTORING, icon: require("@/assets/icons/book.png") },
 ];
 
 interface Information {
@@ -31,6 +40,12 @@ interface Information {
 }
 
 const HomeScreen = () => {
+  const [information, setInformation] = useState<Information>({
+    point: -1,
+    ranking: -1,
+    star: -1,
+  });
+
   useEffect(() => {
     (async () => {
       const response = await (await getAxios()).get("/member/all");
@@ -43,11 +58,22 @@ const HomeScreen = () => {
     })();
   }, []);
 
-  const [information, setInformation] = useState<Information>({
-    point: -1,
-    ranking: -1,
-    star: -1,
-  });
+  const [category, setCategory] = useState<Category | null>(null);
+  const [volunteers, setVolunteers] = useState<any[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await (
+        await getAxios()
+      ).get("/volunteer", {
+        params: {
+          ...(category ? { category: category.code } : {}),
+        },
+      });
+      const { volunteers } = response.data;
+      setVolunteers(volunteers);
+    })();
+  }, [category]);
 
   const gotoRanking = () => {
     router.push("/users/Ranking");
@@ -99,49 +125,36 @@ const HomeScreen = () => {
           <Text style={styles.sectionTitle}>카테고리</Text>
           <View style={styles.categories}>
             {categories.map((category, index) => (
-              <TouchableOpacity key={index} style={styles.category}>
+              <TouchableOpacity
+                key={index}
+                style={styles.category}
+                onPress={() => setCategory(category.category)}
+              >
                 <Image
                   source={category.icon}
                   style={{ width: 24, height: 24 }}
                 />
-                <Text style={styles.categoryText}>{category.name}</Text>
+                <Text style={styles.categoryText}>
+                  {category.category.name}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
 
-          <Activity
-            activityTitle="세계를 구하기"
-            activitySubtitle="오버워치에 참여하여 세계를 구한다"
-            activityStartAt={parseISO("2024-08-05T14:30:00Z")}
-            activityEndAt={parseISO("2024-08-05T14:30:00Z")}
-            recruitStartAt={parseISO("2024-08-05T14:30:00Z")}
-            recruitEndAt={parseISO("2024-08-05T14:30:00Z")}
-            activityStartTime={parseISO("2024-08-05T14:30:00Z")}
-            activityEndTime={parseISO("2024-08-05T14:30:00Z")}
-            activityTags={["재해·재난"]}
-          />
-          <Activity
-            activityTitle="세계를 구하기"
-            activitySubtitle="오버워치에 참여하여 세계를 구한다"
-            activityStartAt={parseISO("2024-08-05T14:30:00Z")}
-            activityEndAt={parseISO("2024-08-05T14:30:00Z")}
-            recruitStartAt={parseISO("2024-08-05T14:30:00Z")}
-            recruitEndAt={parseISO("2024-08-05T14:30:00Z")}
-            activityStartTime={parseISO("2024-08-05T14:30:00Z")}
-            activityEndTime={parseISO("2024-08-05T14:30:00Z")}
-            activityTags={["재해·재난"]}
-          />
-          <Activity
-            activityTitle="세계를 구하기"
-            activitySubtitle="오버워치에 참여하여 세계를 구한다"
-            activityStartAt={parseISO("2024-08-05T14:30:00Z")}
-            activityEndAt={parseISO("2024-08-05T14:30:00Z")}
-            recruitStartAt={parseISO("2024-08-05T14:30:00Z")}
-            recruitEndAt={parseISO("2024-08-05T14:30:00Z")}
-            activityStartTime={parseISO("2024-08-05T14:30:00Z")}
-            activityEndTime={parseISO("2024-08-05T14:30:00Z")}
-            activityTags={["재해·재난"]}
-          />
+          {volunteers.map((volunteer) => (
+            <Activity
+              activityTitle={volunteer.title.trim().substring(0, 18)}
+              activitySubtitle={volunteer.text.trim().substring(0, 42) + "..."}
+              activityStartAt={parseISO(volunteer.volunteerstartdate)}
+              activityEndAt={parseISO(volunteer.volunteerenddate)}
+              recruitStartAt={parseISO(volunteer.submitstartdate)}
+              recruitEndAt={parseISO(volunteer.submitenddate)}
+              activityStartTime={volunteer.volunteerstarttime.substring(0, 5)}
+              activityEndTime={volunteer.volunteerendtime.substring(0, 5)}
+              activityTags={["재해·재난"]}
+              key={volunteer.id}
+            />
+          ))}
         </View>
       </ScrollView>
       <Footer selectedIndex={0} />

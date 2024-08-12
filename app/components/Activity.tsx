@@ -9,8 +9,8 @@ type Props = {
   recruitEndAt: Date;
   activityStartAt: Date;
   activityEndAt: Date;
-  activityStartTime: Date;
-  activityEndTime: Date;
+  activityStartTime: string;
+  activityEndTime: string;
   activityTags: string[];
 };
 
@@ -35,8 +35,8 @@ export default function Activity({
       </Text>
       <Text style={styles.activityTime}>
         [기간] {format(activityStartAt, "M월 d일")} ~{" "}
-        {format(activityEndAt, "M월 d일")} 매일{" "}
-        {format(activityStartTime, "HH:mm")}-{format(activityEndTime, "HH:mm")}
+        {format(activityEndAt, "M월 d일")} 매일 {activityStartTime}-
+        {activityEndTime}
       </Text>
       <View style={styles.activityTags}>
         {activityTags.map((value, index) => (
