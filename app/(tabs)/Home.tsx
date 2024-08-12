@@ -26,7 +26,7 @@ const categories = [
 
 interface Information {
   point: number;
-  ranking: number;
+  ranking: number | string;
   star: number;
 }
 
@@ -34,6 +34,12 @@ const HomeScreen = () => {
   useEffect(() => {
     (async () => {
       const response = await (await getAxios()).get("/member/all");
+      const { point, ranking, star } = response.data;
+      setInformation({
+        point: point ?? 0,
+        ranking: ranking == -1 ? " - " : ranking,
+        star: star ?? 0,
+      });
     })();
   }, []);
 
@@ -71,11 +77,11 @@ const HomeScreen = () => {
                   source={require("@/assets/icons/coin.png")}
                   style={styles.pointIcon}
                 />{" "}
-                16,384
+                {information.point}
               </Text>
               <TouchableOpacity onPress={gotoRanking}>
                 <Text style={{ ...styles.rallyInfoValue, color: "#F1C40F" }}>
-                  1등
+                  {information.ranking}등
                 </Text>
               </TouchableOpacity>
 
@@ -84,7 +90,7 @@ const HomeScreen = () => {
                   source={require("@/assets/icons/star.png")}
                   style={styles.pointIcon}
                 />{" "}
-                1,024
+                {information.star}
               </Text>
             </View>
           </View>

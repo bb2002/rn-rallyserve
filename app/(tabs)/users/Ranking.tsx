@@ -8,48 +8,52 @@ const events = [
   {
     rank: 1,
     title: "고양이 키우고 간식 받기",
-    icon: require("@/assets/icons/book.png"),
+    icon: require("@/assets/icons/gold_medal.png"),
   },
-  { rank: 2, title: "미라클 모닝", icon: require("@/assets/icons/book.png") },
+  {
+    rank: 2,
+    title: "미라클 모닝",
+    icon: require("@/assets/icons/silver_medal.png"),
+  },
   {
     rank: 3,
     title: "우리 아이에게 선물 보내기",
-    icon: require("@/assets/icons/book.png"),
+    icon: require("@/assets/icons/bronze_medal.png"),
   },
   {
     rank: 4,
     title: "친구에게 선물상자 보내기",
-    icon: require("@/assets/icons/book.png"),
+    icon: require("@/assets/icons/medal.png"),
   },
   {
     rank: 5,
     title: "오프라인 결제하고 30% 캐시백",
-    icon: require("@/assets/icons/book.png"),
+    icon: require("@/assets/icons/medal.png"),
   },
   {
     rank: 6,
     title: "나의 소비 아바타 만들기",
-    icon: require("@/assets/icons/book.png"),
+    icon: require("@/assets/icons/medal.png"),
   },
   {
     rank: 7,
     title: "놓친 CU 포인트 알아보기",
-    icon: require("@/assets/icons/book.png"),
+    icon: require("@/assets/icons/medal.png"),
   },
   {
     rank: 8,
     title: "주식 100만원 옮기고 혜택받기",
-    icon: require("@/assets/icons/book.png"),
+    icon: require("@/assets/icons/medal.png"),
   },
   {
     rank: 9,
     title: "통신 미션하고 포인트 받기",
-    icon: require("@/assets/icons/book.png"),
+    icon: require("@/assets/icons/medal.png"),
   },
   {
     rank: 10,
     title: "함께 토스 켜고 포인트 받기",
-    icon: require("@/assets/icons/book.png"),
+    icon: require("@/assets/icons/medal.png"),
   },
 ];
 
@@ -59,10 +63,8 @@ export default function App() {
       <Header />
       <ScrollView style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>매치메이킹</Text>
-          <Text style={styles.headerSubtitle}>
-            조건과 성향에 가장 알맞는 봉사 활동을 찾아요.
-          </Text>
+          <Text style={styles.headerTitle}>랭킹</Text>
+          <Text style={styles.headerSubtitle}>현재 커뮤니티 랭킹이에요.</Text>
         </View>
         <View style={styles.tabContainer}>
           <Text style={styles.activeTab}> · 포인트순</Text>

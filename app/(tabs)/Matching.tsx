@@ -186,10 +186,10 @@ const App = () => {
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            매칭 시작 버튼을 누르면 당신은 악마와의 계약이 성사 된 것으로
-            간주합니다. 당신의 몸과 마음은 봉사 정신이 가득하게 혁명적으로
-            변화할 것이며, 어쩌구 저쩌구 여기에 주의 사항과 안내 사항을 적어
-            두면 좋을 것 같다는것을 이렇게 길게 말하고 있습니다.
+            봉사활동 매치메이킹 프로그램은 사용자의 개인정보를 보호하며, 제공된
+            정보를 바탕으로 봉사활동 기회를 연결해 드립니다. 본 서비스 이용 시
+            발생하는 문제에 대해 법적 책임을 지지 않으며, 사용자는 자발적으로
+            참여해야 합니다.
           </Text>
         </View>
       </ScrollView>
@@ -277,6 +277,7 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 12,
     color: "#999",
+    marginBottom: 16,
   },
   input: {
     height: 80,

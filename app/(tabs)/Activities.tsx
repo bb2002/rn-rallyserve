@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,15 +12,13 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { Picker } from "@react-native-picker/picker";
 import Activity from "../components/Activity";
-import { parseISO } from "date-fns";
+import { format, parseISO } from "date-fns";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 interface ActivitiesForm {
   searchText: string;
   category: string | null;
-  activityStartAt: Date | null;
-  activityEndAt: Date | null;
-  activityStartTime: Date | null;
-  activityEndTime: Date | null;
+  activityDate: Date | null;
   region: string | null;
 }
 
@@ -29,12 +26,16 @@ export default function Activities() {
   const [form, setForm] = useState<ActivitiesForm>({
     searchText: "",
     category: null,
-    activityStartAt: null,
-    activityEndAt: null,
-    activityStartTime: null,
-    activityEndTime: null,
+    activityDate: null,
     region: null,
   });
+
+  const [dateSelecteModal, setDateSelectModal] = useState(false);
+
+  const onDateSelected = (selectedDate: Date) => {
+    setDateSelectModal(false);
+    setForm({ ...form, activityDate: selectedDate });
+  };
 
   return (
     <FullSafeAreaView>
@@ -60,9 +61,6 @@ export default function Activities() {
             <Picker.Item label="보건·의료" value="" />
             <Picker.Item label="교육" value="" />
           </Picker>
-          <TouchableOpacity style={styles.filterButton}>
-            <Text style={styles.filterButtonText}>활동기간/시간</Text>
-          </TouchableOpacity>
           <Picker style={styles.filterButton}>
             <Picker.Item label="서울특별시" value="" />
             <Picker.Item label="경기도" value="" />
@@ -80,6 +78,23 @@ export default function Activities() {
             <Picker.Item label="제주특별자치도" value="" />
           </Picker>
         </View>
+        <TouchableOpacity
+          style={styles.filterButton}
+          onPress={() => setDateSelectModal(true)}
+        >
+          <Text style={styles.filterButtonText}>
+            {form.activityDate
+              ? format(form.activityDate, "yyyy-MM-dd HH:mm:ss")
+              : "활동기간/시간"}
+          </Text>
+        </TouchableOpacity>
+        <DateTimePickerModal
+          isVisible={dateSelecteModal}
+          mode="datetime"
+          date={new Date()}
+          onConfirm={onDateSelected}
+          onCancel={() => setDateSelectModal(false)}
+        />
         <Activity
           activityTitle="세계를 구하기"
           activitySubtitle="오버워치에 참여하여 세계를 구한다"
@@ -134,7 +149,6 @@ const styles = StyleSheet.create({
   filterContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20,
   },
   filterButton: {
     backgroundColor: "#f8f8f8",
