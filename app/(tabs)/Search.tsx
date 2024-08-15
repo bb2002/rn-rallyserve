@@ -8,6 +8,9 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import getAxios from "../common/getAxios";
+import Activity from "../components/Activity";
+import { parseISO } from "date-fns";
 
 interface RecentSearchItem {
   id: string;
@@ -17,6 +20,7 @@ interface RecentSearchItem {
 const SearchScreen: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [recentSearches, setRecentSearches] = useState<RecentSearchItem[]>([]);
+  const [volunteers, setVolunteers] = useState<any[]>([]);
 
   useEffect(() => {
     loadRecentSearches();
@@ -57,6 +61,18 @@ const SearchScreen: React.FC = () => {
     if (searchTerm.trim() !== "") {
       saveSearchTerm(searchTerm.trim());
       setSearchTerm("");
+
+      (async () => {
+        const response = await (
+          await getAxios()
+        ).get("/volunteer", {
+          params: {
+            search: searchTerm,
+          },
+        });
+
+        setVolunteers(response?.data?.volunteers || []);
+      })();
     }
   };
 
@@ -100,6 +116,22 @@ const SearchScreen: React.FC = () => {
           </View>
         ))}
       </View>
+
+      {volunteers.map((volunteer) => (
+        <Activity
+          articleId={volunteer.id}
+          activityTitle={volunteer.title.trim().substring(0, 18)}
+          activitySubtitle={volunteer.text.trim().substring(0, 42) + "..."}
+          activityStartAt={parseISO(volunteer.volunteerstartdate)}
+          activityEndAt={parseISO(volunteer.volunteerenddate)}
+          recruitStartAt={parseISO(volunteer.submitstartdate)}
+          recruitEndAt={parseISO(volunteer.submitenddate)}
+          activityStartTime={volunteer.volunteerstarttime.substring(0, 5)}
+          activityEndTime={volunteer.volunteerendtime.substring(0, 5)}
+          activityTags={["재해·재난"]}
+          key={volunteer.id}
+        />
+      ))}
     </View>
   );
 };

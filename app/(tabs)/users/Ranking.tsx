@@ -1,63 +1,38 @@
+import getAxios from "@/app/common/getAxios";
 import Footer from "@/app/components/Footer";
 import FullSafeAreaView from "@/app/components/FullSafeAreaView";
 import Header from "@/app/components/Header";
-import React from "react";
-import { View, Text, ScrollView, StyleSheet, Image } from "react-native";
-
-const events = [
-  {
-    rank: 1,
-    title: "고양이 키우고 간식 받기",
-    icon: require("@/assets/icons/gold_medal.png"),
-  },
-  {
-    rank: 2,
-    title: "미라클 모닝",
-    icon: require("@/assets/icons/silver_medal.png"),
-  },
-  {
-    rank: 3,
-    title: "우리 아이에게 선물 보내기",
-    icon: require("@/assets/icons/bronze_medal.png"),
-  },
-  {
-    rank: 4,
-    title: "친구에게 선물상자 보내기",
-    icon: require("@/assets/icons/medal.png"),
-  },
-  {
-    rank: 5,
-    title: "오프라인 결제하고 30% 캐시백",
-    icon: require("@/assets/icons/medal.png"),
-  },
-  {
-    rank: 6,
-    title: "나의 소비 아바타 만들기",
-    icon: require("@/assets/icons/medal.png"),
-  },
-  {
-    rank: 7,
-    title: "놓친 CU 포인트 알아보기",
-    icon: require("@/assets/icons/medal.png"),
-  },
-  {
-    rank: 8,
-    title: "주식 100만원 옮기고 혜택받기",
-    icon: require("@/assets/icons/medal.png"),
-  },
-  {
-    rank: 9,
-    title: "통신 미션하고 포인트 받기",
-    icon: require("@/assets/icons/medal.png"),
-  },
-  {
-    rank: 10,
-    title: "함께 토스 켜고 포인트 받기",
-    icon: require("@/assets/icons/medal.png"),
-  },
-];
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 
 export default function App() {
+  const [ranking, setRanking] = useState<any[]>([]);
+  const [mode, setMode] = useState("point");
+
+  useEffect(() => {
+    (async () => {
+      let response;
+      if (mode == "point") {
+        response = await (await getAxios()).get("/ranking/point/all");
+      }
+
+      if (mode === "star") {
+        response = await (await getAxios()).get("/ranking/star/all");
+      }
+
+      if (response?.data && Array.isArray(response.data)) {
+        setRanking(response.data as any[]);
+      }
+    })();
+  }, [mode]);
+
   return (
     <FullSafeAreaView>
       <Header />
@@ -67,17 +42,67 @@ export default function App() {
           <Text style={styles.headerSubtitle}>현재 커뮤니티 랭킹이에요.</Text>
         </View>
         <View style={styles.tabContainer}>
-          <Text style={styles.activeTab}> · 포인트순</Text>
-          <Text style={styles.inactiveTab}> · 스타순</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setMode("point");
+              setRanking([]);
+            }}
+            style={{ marginRight: 24 }}
+          >
+            <Text
+              style={mode == "point" ? styles.activeTab : styles.inactiveTab}
+            >
+              {" "}
+              · 포인트순
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setMode("star");
+              setRanking([]);
+            }}
+          >
+            <Text
+              style={mode == "point" ? styles.inactiveTab : styles.activeTab}
+            >
+              {" "}
+              · 스타순
+            </Text>
+          </TouchableOpacity>
         </View>
-        {events.map((event) => (
-          <View key={event.rank} style={styles.eventContainer}>
-            <Text style={styles.rankingText}>{event.rank}위</Text>
+        {ranking.map((rank) => (
+          <View key={rank.memberId} style={styles.eventContainer}>
+            <Text style={styles.rankingText}>{rank.rank}위</Text>
             <View style={styles.iconContainer}>
-              <Image source={event.icon} style={styles.icon} />
+              {rank.rank === 1 && (
+                <Image
+                  source={require("@/assets/icons/gold_medal.png")}
+                  style={styles.icon}
+                />
+              )}
+              {rank.rank === 2 && (
+                <Image
+                  source={require("@/assets/icons/silver_medal.png")}
+                  style={styles.icon}
+                />
+              )}
+              {rank.rank === 3 && (
+                <Image
+                  source={require("@/assets/icons/bronze_medal.png")}
+                  style={styles.icon}
+                />
+              )}
+              {rank.rank !== 1 && rank.rank !== 2 && rank.rank !== 3 && (
+                <Image
+                  source={require("@/assets/icons/medal.png")}
+                  style={styles.icon}
+                />
+              )}
             </View>
-            <Text style={styles.score}>16,384P</Text>
-            <Text style={styles.nickname}>{event.title}</Text>
+            <Text style={styles.score}>
+              {rank.total} {mode == "point" ? "P" : "★"}
+            </Text>
+            <Text style={styles.nickname}>{rank.userId}</Text>
           </View>
         ))}
       </ScrollView>
@@ -148,7 +173,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#FFAA00",
-    marginRight: 20,
   },
   inactiveTab: {
     fontSize: 16,

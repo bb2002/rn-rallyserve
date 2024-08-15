@@ -143,6 +143,7 @@ const HomeScreen = () => {
 
           {volunteers.map((volunteer) => (
             <Activity
+              articleId={volunteer.id}
               activityTitle={volunteer.title.trim().substring(0, 18)}
               activitySubtitle={volunteer.text.trim().substring(0, 42) + "..."}
               activityStartAt={parseISO(volunteer.volunteerstartdate)}

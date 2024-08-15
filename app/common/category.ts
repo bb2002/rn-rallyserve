@@ -12,7 +12,7 @@ export const MENTORING: Category = { name: "멘토링", code: "mentoring" };
 export const SAFETY: Category = { name: "예방·안전", code: "safety" };
 export const INTERNATIONAL: Category = { name: "국제", code: "international" };
 
-const categories: Category[] = [
+export const categories: Category[] = [
   DISASTER,
   LIFE,
   ENVIRONMENT,

@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { format } from "date-fns";
+import { router } from "expo-router";
 
 type Props = {
+  articleId: number;
   activityTitle: string;
   activitySubtitle: string;
   recruitStartAt: Date;
@@ -15,6 +17,7 @@ type Props = {
 };
 
 export default function Activity({
+  articleId,
   activityTitle,
   activitySubtitle,
   recruitStartAt,
@@ -26,7 +29,10 @@ export default function Activity({
   activityTags,
 }: Props) {
   return (
-    <View style={styles.activity}>
+    <TouchableOpacity
+      style={styles.activity}
+      onPress={() => router.push("/article/ArticleRead?id=" + articleId)}
+    >
       <Text style={styles.activityTitle}>{activityTitle}</Text>
       <Text style={styles.activitySubtitle}>{activitySubtitle}</Text>
       <Text style={styles.activityDate}>
@@ -45,7 +51,7 @@ export default function Activity({
           </Text>
         ))}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
